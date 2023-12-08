@@ -1,15 +1,15 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./app/Auth/Login";
 
 function App() {
   return (
-   <>
-    <div className="items-center justify-center">
-    <h1 className="text-3xl  underline">
-      Test
-    </h1>
-    </div>
-   </>
+    <Router>
+      <Routes>
+        <Route path="login" element ={<Login/>} ></Route>
+      </Routes>
+    </Router>
   );
 }
 
