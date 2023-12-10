@@ -3,7 +3,7 @@ import login from "../../assets/images/login.svg";
 
 const Login = () => {
   return (
-    <div className="flex justify-center items-center bg-blue-400 container h-screen">
+    <div className="flex justify-center items-center bg-gradient-to-r from-cyan-500 to-blue-500 container h-screen">
       <div className="w-6/12 h-4/6 flex shadow-lg bg-white ">
         <div className="w-6/12 bg-blue-100 flex justify-center items-center">
           <img src={login} alt="login" />
