@@ -1,17 +1,7 @@
 import "./login.css";
 import login from "../../../assets/images/login.svg";
 import {  useState } from "react";
-
-const generateRandomCode = () => {
-    const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const codeLength = 4;
-    let code = "";
-    for (let i = 0; i < codeLength; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      code += characters.charAt(randomIndex);
-    }
-    return code;
-  };
+import { generateRandomCode } from "../../../utils";
 
 const LoginView = () => {
     const [captchaValue, setCaptchaValue] = useState("");
@@ -27,15 +17,16 @@ const LoginView = () => {
     };
   
     return (
-        <div className="flex justify-center items-center bg-gradient-to-r from-cyan-500 to-blue-500 container h-screen">
+        <div className="flex justify-center items-center bg-gradient-to-r from-cyan-500 to-blue-500  h-screen w-screen">
           <div className="w-6/12 h-4/6 flex shadow-lg bg-white ">
             <div className="w-6/12 bg-blue-100 flex justify-center items-center">
               <img src={login} alt="login" />
             </div>
             <div className="ml-8 w-6/12 flex  flex-col justify-center items-start">
-              <div className="font-medium text-xl"> Login to your account</div>
+              <div className="font-medium text-xl">Welcome Back, Admin</div>
+              <div className="font-small text-sm mt-2 text-gray-400"> Login to your account</div>
               <form className="bg-white w-full ">
-                <div className="mt-12 ">
+                <div className="mt-8 ">
                   <input
                     className="shadow border rounded w-10/12 py-2 px-3 text-gray-700 "
                     id="username"

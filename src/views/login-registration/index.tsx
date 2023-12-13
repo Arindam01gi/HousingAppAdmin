@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-import Dashboard from "../app/Dashboard";
-import Login from "./login-registration/login";
+
+import Login from "./login";
 
 const LoginRegistration = () => {
     const{pathname} = useLocation();
