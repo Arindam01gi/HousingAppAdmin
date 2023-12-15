@@ -6,8 +6,15 @@ const InitialState: StoreState = {
     message: ''
   },
   error: {
-      error: undefined,
+    error: undefined,
   },
+  token: {
+    access: undefined,
+    refresh: undefined
+  },
+  adminAuth: {
+    loginResponse:undefined
+  }
 }
 
 export default InitialState;
