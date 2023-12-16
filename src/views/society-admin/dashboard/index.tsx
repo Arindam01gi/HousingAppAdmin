@@ -24,7 +24,7 @@ const mapStateToProps = (state: StoreState) => {
       notices: state.admin.notices
     };
   };
-  const mapDispatchToProps = {
+const mapDispatchToProps = {
     UserLogoutSuccess,
     GetNotice
   };
