@@ -20,6 +20,7 @@ export interface AdminLoginResponse {
   state: string
   apt_unique_code: string
   pincode: string
+  is_authenticated:boolean
   permissions: Permission[]
 }
 export interface Permission {

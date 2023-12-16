@@ -1,5 +1,5 @@
 import profile from "../../../assets/images/profile.jpg";
-const DashboardView = () => {
+const DashboardView = ({handleLogout}:DashboardViewProps) => {
   return (
     <div className="grid grid-cols-12 h-screen">
       <div className="shadow-xl z-40 col-span-2">
@@ -34,7 +34,7 @@ const DashboardView = () => {
               <span className="text-sm font-medium">Mainak Das</span>
               <span className="text-sm">+91 7001824751</span>
             </div>
-            <div className="justify-center">
+            <div className="justify-center"  onClick={handleLogout} style={{cursor:"pointer"}}>
               <span className="text-sm font-medium ml-10">Logout</span>
               <i className="fa-solid ml-2 fa-right-from-bracket text-white"></i>
             </div>
@@ -62,3 +62,6 @@ const DashboardView = () => {
   );
 };
 export default DashboardView;
+interface DashboardViewProps{
+  handleLogout:any
+}

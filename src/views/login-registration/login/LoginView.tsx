@@ -2,8 +2,20 @@ import "./login.css";
 import login from "../../../assets/images/login.svg";
 import { useState } from "react";
 import { generateRandomCode } from "../../../utils";
+import { useForm } from "react-hook-form";
+import CustomInput from "../../../library/CustomInput";
+import { emailValidator, requiredValidator } from "../../../validators";
 
 const LoginView = ({ loginAdmin }: LoginViewProps) => {
+  const {
+    register,
+    control,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>({
+    mode: "all",
+  });
   const [captchaValue, setCaptchaValue] = useState("");
   const [generatedCode, setGeneratedCode] = useState(generateRandomCode());
 
@@ -29,32 +41,40 @@ const LoginView = ({ loginAdmin }: LoginViewProps) => {
             Login to your account
           </div>
           <form className="bg-white w-full ">
+
             <div className="mt-8 ">
-              <input
-                className="shadow border rounded w-10/12 py-2 px-3 text-gray-700 "
-                id="username"
-                type="text"
-                placeholder="Username"
-              />
+              <CustomInput  
+                rules={{ ...requiredValidator, ...emailValidator}}
+                name="admin_email"
+                control={control}
+                defaultValue={null}
+                errors={errors}
+                className="shadow w-10/12 border rounded  py-2 px-3 text-gray-700 mb-3"
+                type="email"
+                placeholder="Email Address*"/>
             </div>
             <div className="mt-6 ">
-              {/* <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Password
-                  </label> */}
-              <input
-                className="shadow  w-10/12 border rounded  py-2 px-3 text-gray-700 mb-3"
-                id="password"
-                type="password"
-                placeholder="Password"
-              />
+                <CustomInput  
+                  rules={{ ...requiredValidator}}
+                  name="admin_password"
+                  control={control}
+                  defaultValue={null}
+                  value={null}
+                  errors={errors}
+                  className="shadow w-10/12 border rounded  py-2 px-3 text-gray-700 mb-3"
+                  type="password"
+                  placeholder="Password*"/>
             </div>
             <div className="mt-3 ">
-              <input
-                className="shadow  w-10/12 border rounded  py-2 px-3 text-gray-700 mb-3"
-                id="society_code"
-                type="society_code"
-                placeholder="Society code"
-              />
+              <CustomInput  
+                  rules={{ ...requiredValidator}}
+                  name="apt_code"
+                  control={control}
+                  defaultValue={null}
+                  errors={errors}
+                  className="shadow w-10/12 border rounded  py-2 px-3 text-gray-700 mb-3"
+                  type="text"
+                  placeholder="Society code*"/>
             </div>
             <div className="mt-3 flex">
               <input
@@ -82,7 +102,7 @@ const LoginView = ({ loginAdmin }: LoginViewProps) => {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-10/12 mt-8 focus:outline-none focus:shadow-outline"
               type="button"
-              onClick={loginAdmin}
+              onClick={handleSubmit(loginAdmin)}
             >
               Log In
             </button>

@@ -4,17 +4,13 @@ import { connect } from "react-redux";
 import { StoreState } from "../../../model/reduxModels";
 import { LoginAction } from "../../../store/actions/adminAuthActions";
 import { AdminLoginResponse } from "../../../model/adminAuthModel";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ LoginAction, admn_details }: LoginProps) => {
-  const loginAdmin = () => {
-    console.log("login button pressed");
-    LoginAction({
-      admin_email: "admin@msqube.com",
-      admin_password: "12345",
-      apt_code: "BA-700059-103efdds",
-    });
+  const navigate = useNavigate();
+  const loginAdmin = (data:any) => {
+    LoginAction(data,navigate);
   };
-  console.log("Admin login resp: ", admn_details);
   return <LoginView loginAdmin={loginAdmin} />;
 };
 

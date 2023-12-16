@@ -1,11 +1,17 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import Login from "./login";
 
-const LoginRegistration = () => {
-    const{pathname} = useLocation();
-    <Routes>
-        <Route path="/login/" element ={<Login/>} />
-    </Routes>
+const LoginRegistrationRoutes = () => {
+    const { pathname } = useLocation();
+    return(
+        <Routes>
+            <Route path="/login/" element ={<Login/>} />
+            <Route
+                path="/"
+                element={<Navigate to={`/${pathname.split("/")[1]}/login`} />}
+            />
+        </Routes>
+    )
 }
-export default LoginRegistration;
+export default LoginRegistrationRoutes;

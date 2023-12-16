@@ -6,7 +6,3 @@ export interface ErrorState {
     status: string;
   }
   
-  export interface SystemError {
-    CODE: string;
-    MESSAGE: string;
-  }

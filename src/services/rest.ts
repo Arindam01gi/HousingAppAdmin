@@ -12,7 +12,7 @@ export default class RestService {
     this.client.interceptors.request.use(
       async (config) => {
         const token = await getToken();
-        console.log("token", token);
+        console.log("Getting token from header: ", token);
 
         if (token && !!config.headers) {
           config.headers["Authorization"] = "Bearer " + token;
@@ -26,10 +26,10 @@ export default class RestService {
 
     this.client.interceptors.response.use(
       async (response) => {
-        if (response?.data?.access_token) {
-          await setToken(response?.data?.access_token);
+        if (response?.data?.access) {
+          await setToken(response?.data?.access);
           this.client.defaults.headers.common["Authorization"] =
-            "Bearer " + response?.data?.access_token;
+            "Bearer " + response?.data?.access;
         }
         return response;
       },

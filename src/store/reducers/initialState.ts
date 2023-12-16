@@ -13,7 +13,10 @@ const InitialState: StoreState = {
     refresh: undefined
   },
   adminAuth: {
-    loginResponse:undefined
+    loginResponse: undefined
+  },
+  admin: {
+    notices: []
   }
 }
 

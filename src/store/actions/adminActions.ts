@@ -1,26 +1,20 @@
-import { useNavigate } from "react-router-dom";
-import { AdminAuthMain } from "../../model/adminAuthModel";
-import { AdminLoginService } from "../../services/adminAuthServices";
+import { GetSocietySpecificNotice } from "../../services/adminServices";
 import { ApiCallErrorAction, BeginApiCallAction } from "./apiStatusActions";
 
-
-export enum AdminAuthActionTypes {
-    Admin_Login_Success_Action = "[ADMIN_AUTH] Login for admin success",
-    Admin_Logout_Success_Action = "[ADMIN_AUTH] Logout for admin success"
+export enum AdminActionTypes {
+    Get_Notice_Success_Action = "[ADMIN] Get notice success action",
 }
-export const LoginAction = (payload: any,navigate:any) => {
+export const GetNotice = () => {
     return (dispatch:any, getState: any) => {
         dispatch(
             BeginApiCallAction({
               count: 1,
-              message: 'Signing In. Please Wait.',
+              message: 'Getting notices. Please wait....',
             }),
           );
-        return AdminLoginService(payload)
+        return GetSocietySpecificNotice()
         .then(response => {
-           
-            dispatch(LoginSuccessAction(response.data));
-            navigate("/society-admin/admin-dashboard/");
+            dispatch(GetSocietySpecificNoticeSuccessAction(response.data));
         })
         .catch(error => {
             console.log(error)
@@ -51,13 +45,8 @@ export const LoginAction = (payload: any,navigate:any) => {
     }
 }
 
-export const  LoginSuccessAction = (payload:AdminAuthMain) => {
+export const  GetSocietySpecificNoticeSuccessAction = (payload:any) => {
     // showToast('Login successful.', 'rgba(0, 0, 0, 0.7)');
-    return {type: AdminAuthActionTypes.Admin_Login_Success_Action,payload:payload}
+    return {type: AdminActionTypes.Get_Notice_Success_Action,payload:payload}
 }
 
-export const UserLogoutSuccess = () => {
-    return {
-      type: AdminAuthActionTypes.Admin_Logout_Success_Action,
-    };
-};

@@ -1,10 +1,9 @@
 import "./App.css";
-import {Route, Routes } from "react-router-dom";
+import {Navigate, Route, Routes } from "react-router-dom";
 import Loading from "./library/Loading";
 import Toaster from "./library/Toaster";
-import Login from "./views/login-registration/login";
 import SocietyAdminRoutes from "./views/society-admin";
-
+import LoginRegistrationRoutes from "./views/login-registration";
 
 function App() {
   return (
@@ -20,8 +19,10 @@ export default App;
 const MainRouter = () => {
   return(
     <Routes>
-      <Route path="/neighbourhood/signin/" element ={<Login/>} ></Route>
-      <Route path="/neighbourhood/society-admin/*" element={<SocietyAdminRoutes/>}></Route>
+      <Route path="/signin/*" element ={<LoginRegistrationRoutes/>} ></Route>
+      <Route path="/society-admin/*" element={<SocietyAdminRoutes/>}></Route>
+      <Route path="/" element={<Navigate replace to={"/signin/"}/>}/>
+      <Route path="*" element={<Navigate replace to={"/signin/"}/>}/>
     </Routes>
   )
 }

@@ -1,4 +1,5 @@
 import { LoadingState } from "../../model/loadingModels";
+import { AdminActionTypes } from "../actions/adminActions";
 import { AdminAuthActionTypes } from "../actions/adminAuthActions";
 import { ApiStatusActionTypes } from "../actions/apiStatusActions";
 import InitialState from "./initialState";
@@ -22,6 +23,8 @@ export default function LoadingReducer(
         case ApiStatusActionTypes.Loading_Stop_Success:
           return {...state, count: 0};
         case AdminAuthActionTypes.Admin_Login_Success_Action:   
+          return {...state, count: state.count > 0 ? state.count - 1 : 0};
+        case AdminActionTypes.Get_Notice_Success_Action:
           return {...state, count: state.count > 0 ? state.count - 1 : 0};
         default:
             return state;
