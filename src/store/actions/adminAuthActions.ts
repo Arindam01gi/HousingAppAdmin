@@ -37,13 +37,13 @@ export const LoginAction = (payload: any,navigate:any) => {
               console.log("error occued")
               dispatch(
                 ApiCallErrorAction({
-                  status:error.response.data.status
+                  message:error.response.data.message
                 }),
               );
             } else {
               dispatch(
                 ApiCallErrorAction({
-                    status:"Error Ocurred"
+                  message:"Error Ocurred"
                 }),
               );
             }

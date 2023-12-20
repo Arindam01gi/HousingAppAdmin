@@ -40,17 +40,15 @@ const Toaster = ({ error }: ToasterProps) => {
   );
   useEffect(() => {
     if (!!error) {
-      if (!!error.status && error.status.length > 0) {
+      if (!!error.message && error.message.length > 0) {
         // error.Info.forEach(async (element) => {
         //   await ShowMessage(element.MESSAGE, "error");
         // });
-        ShowMessage(error.status, "error");
+        ShowMessage(error.message, "error");
       }
     }
   }, [error]);
 
-
-  
   return <div></div>;
 };
 

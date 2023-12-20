@@ -3,6 +3,6 @@ export interface ErrorState {
   }
   
   export interface ErrorModel {
-    status: string;
+    message: string;
   }
   
