@@ -8,6 +8,7 @@ export enum ApiStatusActionTypes {
     Api_Call_Success = '[API_STATUS] Api Call Success Action',
     Loading_Stop_Success = '[API_STATUS] Loading Stop Success',
     Set_Token = "[API_STATUS] Set Token Success Action",
+    Set_Ref_Token = "[API_STATUS] Set Ref Token Success Action"
 }
 
 export const BeginApiCallAction = (payload: LoadingPayload) => {
@@ -22,6 +23,10 @@ export const ApiCallSuccessAction = () => {
 export const LoadingStopAction = () => {
   return {type: ApiStatusActionTypes.Loading_Stop_Success};
 };
-export const SetTokenAction = (payload: string) => {
+export const SetTokenAction = (payload: any) => {
   return { type: ApiStatusActionTypes.Set_Token, payload: payload };
 };
+export const SetRefTokenAction = (payload: any) => {
+  return { type: ApiStatusActionTypes.Set_Ref_Token, payload: payload };
+};
+

@@ -10,8 +10,11 @@ export default function TokenReducer(
 ) {
   switch (action.type) {
     case ApiStatusActionTypes.Set_Token:
-      console.log(action.payload)
+      console.log("Access: ",action.payload)
       return { ...state, access: action.payload };
+      case ApiStatusActionTypes.Set_Ref_Token:
+      console.log("Refresh: ",action.payload)
+      return { ...state, refresh: action.payload };
     default:
       return state;
   }

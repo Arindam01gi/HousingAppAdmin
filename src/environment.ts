@@ -6,5 +6,6 @@ export const environment = {
     urls:{
         admin_login: "administration/loginadmin/",
         admin_notice: "administration/nottice/",
+        refreshTokenUrl: "token/refresh/"
     }
 }

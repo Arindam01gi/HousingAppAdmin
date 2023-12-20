@@ -1,9 +1,12 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from "axios";
-import ConfigureStore from "../store/configureStore";
-import { SetTokenAction } from "../store/actions/apiStatusActions";
+import { SetRefTokenAction, SetTokenAction } from "../store/actions/apiStatusActions";
 import { stores } from "../index";
+import { UserLogoutSuccess } from "../store/actions/adminAuthActions";
+import { environment } from "../environment";
 
 // export const stores = ConfigureStore();
+const baseURL = "http://13.126.110.99:8000/"
+// const baseURL = "http://127.0.0.1:8000/api/"
 
 export default class RestService {
   client: AxiosInstance;
@@ -12,8 +15,7 @@ export default class RestService {
     this.client.interceptors.request.use(
       async (config) => {
         const token = await getToken();
-        console.log("Getting token from header: ", token);
-
+    
         if (token && !!config.headers) {
           config.headers["Authorization"] = "Bearer " + token;
         }
@@ -33,30 +35,32 @@ export default class RestService {
         }
         return response;
       },
-    //   async (error) => {        
-    //     const originalRequest = error?.config;
-    //     if (
-    //       error?.response?.status === 401 &&
-    //       error?.response?.data.message === "Signature has expired."
-    //     ) { 
-    //       originalRequest._retry = true;
-    //       const token = await refreshToken();          
-    //       if (!!token && token.status === 200) {
-    //         this.client.defaults.headers.common["Authorization"] =
-    //           "Bearer " + token.data.access_token;
-    //         await new Promise((resolve) => setTimeout(resolve, 1000));
-    //         return this.client(originalRequest);
-    //       } else {            
-    //         //logout
-    //         stores.logout();
-    //         // router.push({ name: "login" });
-    //         window.location.replace('/login')
-    //         await new Promise((resolve) => setTimeout(resolve, 500));
-    //         return this.client(originalRequest);
-    //       }
-    //     }
-    //     return Promise.reject(error);
-    //   }
+      async (error) => {        
+        const originalRequest = error?.config;
+        if (
+          error?.response?.status === 401 
+          // &&
+          // error?.response?.data.messages[0].message === "Token 'exp' claim has expired"
+        ) { 
+          originalRequest._retry = true;
+          const token = await refreshToken();          
+          if (!!token && token.status === 200) {
+            this.client.defaults.headers.common["Authorization"] =
+              "Bearer " + token.data.access;
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            return this.client(originalRequest);
+          } else {            
+            //logout
+            // stores.logout();
+            stores.dispatch(UserLogoutSuccess());
+            // router.push({ name: "login" });
+            window.location.replace('/login')
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            return this.client(originalRequest);
+          }
+        }
+        return Promise.reject(error);
+      }
     );
   }
 
@@ -80,30 +84,40 @@ const setToken = async (token: string) => {
     stores.dispatch(SetTokenAction(token));
 };
 
-// let refreshTokenLogin = ref("");
-// refreshTokenLogin = userStore.refreshTokenData;
-// const refreshToken = async () => {
-//   let tokenRes:any;
-//   try{
-//     tokenRes = await axios.post(
-//       baseURL.concat(BackendRoutes.refreshTokenUrl),
-//       {
-//         refresh_token: refreshTokenLogin,
-//       },
-//       {
-//         headers: {
-//           Authorization: "Bearer " + userStore.accessToken,
-//           "Content-Type": "application/json; charset=UTF-8",
-//           realm: userStore.realm,
-//         },
-//       }
-//     );
-//   }catch(e){
-//     userStore.logout();
-//     // router.push({ name: "login" });
-//     window.location.replace('/login')
-//     await new Promise((resolve) => setTimeout(resolve, 500));
-//   }  
-//   userStore.saveNewRefToken(tokenRes.data);
-//   return tokenRes;
-// };
+const setRefToken = async (token: string) => {
+  stores.dispatch(SetRefTokenAction(token));
+};
+
+
+
+
+const refreshToken = async () => {
+  let refreshTokenLogin = stores.getState().token.refresh;
+  console.log(refreshTokenLogin)
+  let tokenRes:any;
+  try{
+    tokenRes = await axios.post(
+      baseURL.concat(environment.urls.refreshTokenUrl),
+      {
+        refresh_token: refreshTokenLogin,
+      },
+      {
+        headers: {
+          // Authorization: "Bearer " + userStore.accessToken,
+          "Content-Type": "application/json; charset=UTF-8",
+          // realm: userStore.realm,
+        },
+      }
+    );
+  }catch(e){
+    stores.dispatch(UserLogoutSuccess());
+    // router.push({ name: "login" });
+    window.location.replace('/login')
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }  
+  // userStore.saveNewRefToken(tokenRes.data);
+  setRefToken(tokenRes.data.refresh)
+  return tokenRes;
+};
+
+
