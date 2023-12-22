@@ -5,7 +5,7 @@ import { UserLogoutSuccess } from "../../../store/actions/adminAuthActions";
 import { GetNotice } from "../../../store/actions/adminActions";
 import { useEffect } from "react";
 
-const SocietyAdminDashboard = ({UserLogoutSuccess,GetNotice,notices}:SocietyAdminDashboardProps) => {
+const SocietyAdminDashboard = ({UserLogoutSuccess,GetNotice,notices,permissions}:SocietyAdminDashboardProps) => {
     const handleLogout = () => {
         UserLogoutSuccess();
     }
@@ -14,14 +14,16 @@ const SocietyAdminDashboard = ({UserLogoutSuccess,GetNotice,notices}:SocietyAdmi
     },[])
 
     console.log("Notices: ",notices)
+    console.log("permissions",permissions)
     return(
-        <DashboardView handleLogout={handleLogout}></DashboardView>
+        <DashboardView handleLogout={handleLogout} permissions={permissions} ></DashboardView>
     )
 }
 const mapStateToProps = (state: StoreState) => {
     return {
       admn_details: state.adminAuth.loginResponse,
-      notices: state.admin.notices
+      notices: state.admin.notices,
+      permissions: state.adminAuth.loginResponse?.permissions[0].action_items
     };
   };
 const mapDispatchToProps = {
@@ -34,4 +36,5 @@ interface SocietyAdminDashboardProps{
     UserLogoutSuccess:any
     GetNotice:any
     notices:any
+    permissions:any
 }
