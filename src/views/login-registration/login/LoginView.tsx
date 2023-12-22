@@ -5,6 +5,10 @@ import { generateRandomCode } from "../../../utils";
 import { useForm } from "react-hook-form";
 import CustomInput from "../../../library/CustomInput";
 import { emailValidator, requiredValidator } from "../../../validators";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const LoginView = ({ loginAdmin }: LoginViewProps) => {
   const {
@@ -18,6 +22,7 @@ const LoginView = ({ loginAdmin }: LoginViewProps) => {
   });
   const [captchaValue, setCaptchaValue] = useState("");
   const [generatedCode, setGeneratedCode] = useState(generateRandomCode());
+  const [errorMessage,setErrorMessage] = useState<string|null>("");
 
   const handleInputChange = (e: any) => {
     setCaptchaValue(e.target.value.toUpperCase());
@@ -27,6 +32,20 @@ const LoginView = ({ loginAdmin }: LoginViewProps) => {
     setGeneratedCode(generateRandomCode());
     setCaptchaValue("");
   };
+
+  const validateCaptcha = () =>{
+    return captchaValue.toUpperCase() === generatedCode.toUpperCase();
+  }
+
+  const handleLogin = (e:any) =>{
+    e.preventDefault();
+    if(validateCaptcha()){
+      console.log("click")
+      handleSubmit(loginAdmin)();
+    }else{
+      setErrorMessage("Inavalid Captcha")
+    }
+  }
 
   return (
     <>
@@ -131,6 +150,7 @@ const LoginView = ({ loginAdmin }: LoginViewProps) => {
                   fontWeight: 500,
                 }}
               />
+              
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded ml-5 w-1/12 focus:outline-none focus:shadow-outline"
                 type="button"
@@ -139,20 +159,21 @@ const LoginView = ({ loginAdmin }: LoginViewProps) => {
                 <i className="fa-solid fa-arrows-rotate text-white"></i>
               </button>
             </div>
+            <div className="text-red-500 mt-2">{errorMessage}</div>
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-6/12 mt-8 focus:outline-none focus:shadow-outline"
               type="button"
               style={{
                 borderRadius: 37,
               }}
-              onClick={handleSubmit(loginAdmin)}
+              onClick={handleLogin}
             >
               Log In
             </button>
           </form>
         </div>
         <div className="flex justify-center items-center w-6/12">
-          <div className="justify-center items-center">
+          {/* <div className="justify-center items-center">
             <img
               src={logogif}
               alt=""
@@ -175,9 +196,44 @@ const LoginView = ({ loginAdmin }: LoginViewProps) => {
                 of.
               </p>
             </div>
+          </div> */}
+          <Slider
+          dots
+          infinite
+          speed={500}
+          slidesToShow={1}
+          slidesToScroll={1}
+        >
+          <div>
+            <img
+              src={logogif}
+              alt=""
+              className="w-12/12 bg-gray-700"
+              style={{
+                borderRadius: "50%",
+                backgroundImage: "cover",
+                alignSelf: "center",
+              }}
+            />
+            <div
+              style={{ textAlign: "center", width: 350 }}
+              className="mt-4 justify-center items-center"
+            >
+              <p style={{ fontWeight: 700, fontSize: 25 }}>
+                Connect and create your ideal community
+              </p>
+              <p className="text-gray-400">
+                From the front door to shared spaces, build the community you
+                dream of.
+              </p>
+            </div>
           </div>
+          {/* Add more slides as needed */}
+          
+        </Slider>
         </div>
       </div>
+      
     </>
   );
 };
